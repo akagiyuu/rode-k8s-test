@@ -8,21 +8,34 @@ services:
       QUEUE_NAME: "data"
     restart: always
     networks:
-      - backend
-  rust-worker:
-    container_name: rode-rust-worker
+      - rode
+  rust-worker1:
+    container_name: rode-rust-worker1
     build:
       context: ./rust-worker
       dockerfile: ./Dockerfile
     restart: always
     networks:
       - rode
+    environment:
+      QUEUE_NAME: "data"
+      ID: "1"
+      AMQP_ADDR: "amqp://rabbitmq:5672/%2f"
+  rust-worker2:
+    container_name: rode-rust-worker2
+    build:
+      context: ./rust-worker
+      dockerfile: ./Dockerfile
+    restart: always
+    networks:
+      - rode
+    environment:
+      QUEUE_NAME: "data"
+      ID: "2"
+      AMQP_ADDR: "amqp://rabbitmq:5672/%2f"
   rabbitmq:
     container_name: rode-rabbitmq
     image: "rabbitmq:4-management"
-    environment:
-      RABBITMQ_DEFAULT_USER: "rabbitmq"
-      RABBITMQ_DEFAULT_PASS: "rabbitmq"
     ports:
       - "15672:15672"
       - "5672:5672"
