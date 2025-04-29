@@ -19,7 +19,6 @@ async fn main() -> Result<()> {
 
     let mut consumer = channel
         .basic_consume(
-            "hello",
             &queue_name,
             &id,
             BasicConsumeOptions::default(),
