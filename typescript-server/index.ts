@@ -6,7 +6,7 @@ amqp.connect('amqp://localhost:5672', function(err, conn) {
 	conn.createChannel(function(err, channel) {
 		if (err) throw err;
 		
-		var queue = 'Date';
+		var queue = process.env.QUEUE_NAME;
 		var msg = new Date();
  
 		channel.assertQueue(queue, {

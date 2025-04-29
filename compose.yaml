@@ -1,0 +1,34 @@
+services:
+  typescript-server:
+    container_name: rode-typescript-server
+    build:
+      context: ./typescript-server
+      dockerfile: ./Dockerfile
+    environment:
+      QUEUE_NAME: "data"
+    restart: always
+    networks:
+      - backend
+  rust-worker:
+    container_name: rode-rust-worker
+    build:
+      context: ./rust-worker
+      dockerfile: ./Dockerfile
+    restart: always
+    networks:
+      - rode
+  rabbitmq:
+    container_name: rode-rabbitmq
+    image: "rabbitmq:4-management"
+    environment:
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    restart: always
+    networks:
+      - rode
+
+networks:
+  rode:
