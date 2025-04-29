@@ -6,6 +6,7 @@ services:
       dockerfile: ./Dockerfile
     environment:
       QUEUE_NAME: "data"
+      AMQP_ADDR: "amqp://${USERNAME}:${PASSWORD}@rabbitmq:5672"
     restart: always
     networks:
       - rode
@@ -20,7 +21,7 @@ services:
     environment:
       QUEUE_NAME: "data"
       ID: "1"
-      AMQP_ADDR: "amqp://rabbitmq:5672/%2f"
+      AMQP_ADDR: "amqp://${USERNAME}:${PASSWORD}@rabbitmq:5672/%2f"
   rust-worker2:
     container_name: rode-rust-worker2
     build:
@@ -32,7 +33,7 @@ services:
     environment:
       QUEUE_NAME: "data"
       ID: "2"
-      AMQP_ADDR: "amqp://rabbitmq:5672/%2f"
+      AMQP_ADDR: "amqp://${USERNAME}:${PASSWORD}@rabbitmq:5672/%2f"
   rabbitmq:
     container_name: rode-rabbitmq
     image: "rabbitmq:4-management"
@@ -42,6 +43,9 @@ services:
     restart: always
     networks:
       - rode
+    environment:
+      RABBITMQ_DEFAULT_USER: ${USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${PASSWORD}
 
 networks:
   rode:
