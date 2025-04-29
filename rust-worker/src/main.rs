@@ -13,12 +13,14 @@ async fn main() -> Result<()> {
     let addr = std::env::var("AMQP_ADDR").unwrap_or_else(|_| "amqp://127.0.0.1:5672/%2f".into());
     let conn = Connection::connect(&addr, ConnectionProperties::default()).await?;
     let id = env::var("ID").unwrap();
+    let queue_name = env::var("QUEUE_NAME").unwrap();
 
     let channel = conn.create_channel().await?;
 
     let mut consumer = channel
         .basic_consume(
             "hello",
+            &queue_name,
             &id,
             BasicConsumeOptions::default(),
             FieldTable::default(),
