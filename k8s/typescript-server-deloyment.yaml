@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: typescript-server-deployment
+  labels:
+    app: typescript-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: typescript-server
+  template:
+    metadata:
+      labels:
+        app: typescript-server 
+    spec:
+      containers:
+      - name: typescript-server
+        image: rode-k8s-test-typescript-server
+        imagePullPolicy: "Never"
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: rabbitmq-config
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: typescript-server-service
+spec:
+  selector:
+    app: typescript-server
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
