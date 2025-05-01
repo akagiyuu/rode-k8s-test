@@ -4,3 +4,4 @@ metadata:
   name: rabbitmq-config
 data:
   AMQP_ADDR: amqp://sigma:sigma@rabbitmq-service/%2f
+  QUEUE_NAME: data

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rust-worker-config
+data:
+  QUEUE_NAME: "data"
+  ID: "1"
