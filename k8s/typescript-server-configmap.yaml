@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: typescript-server-config
-data:
-  AMQP_ADDR: "amqp://rabbitmq/%2f"
